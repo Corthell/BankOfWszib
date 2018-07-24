@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbBankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="konto">
+    <Key>
+      <PropertyRef Name="kontoId" />
+    </Key>
+    <Property Name="kontoId" Type="Int32" Nullable="false" />
+    <Property Name="uzytkownikId" Type="Int32" Nullable="false" />
+    <Property Name="saldo" Type="Int32" />
+    <NavigationProperty Name="uzytkownik" Relationship="Self.FK_konto_uzytkownik" FromRole="konto" ToRole="uzytkownik" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="logId" />
+    </Key>
+    <Property Name="logId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="uzytkownikId" Type="Int32" Nullable="false" />
+    <Property Name="dataLogowania" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="uzytkownik" Relationship="Self.FK_log_uzytkownik" FromRole="log" ToRole="uzytkownik" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="transakcja">
+    <Key>
+      <PropertyRef Name="transakcjaId" />
+    </Key>
+    <Property Name="transakcjaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="uzytkownikId" Type="Int32" Nullable="false" />
+    <Property Name="nrOdbiorcy" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="dataPrzelewu" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="miasto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ulica" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nrLokalu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="kwotaPrzelewu" Type="Int32" />
+    <Property Name="tytulPrzelewu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="uzytkownik" Relationship="Self.FK_transakcja_uzytkownik" FromRole="transakcja" ToRole="uzytkownik" />
+  </EntityType>
+  <EntityType Name="uzytkownik">
+    <Key>
+      <PropertyRef Name="uzytkownikId" />
+    </Key>
+    <Property Name="uzytkownikId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="haslo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="imie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="nazwisko" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="miasto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ulica" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nrLokalu" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="pesel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nrRachunku" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="status" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="kontoes" Relationship="Self.FK_konto_uzytkownik" FromRole="uzytkownik" ToRole="konto" />
+    <NavigationProperty Name="logs" Relationship="Self.FK_log_uzytkownik" FromRole="uzytkownik" ToRole="log" />
+    <NavigationProperty Name="transakcjas" Relationship="Self.FK_transakcja_uzytkownik" FromRole="uzytkownik" ToRole="transakcja" />
+  </EntityType>
+  <Association Name="FK_konto_uzytkownik">
+    <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+    <End Role="konto" Type="Self.konto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uzytkownik">
+        <PropertyRef Name="uzytkownikId" />
+      </Principal>
+      <Dependent Role="konto">
+        <PropertyRef Name="uzytkownikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_log_uzytkownik">
+    <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+    <End Role="log" Type="Self.log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uzytkownik">
+        <PropertyRef Name="uzytkownikId" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="uzytkownikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transakcja_uzytkownik">
+    <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+    <End Role="transakcja" Type="Self.transakcja" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uzytkownik">
+        <PropertyRef Name="uzytkownikId" />
+      </Principal>
+      <Dependent Role="transakcja">
+        <PropertyRef Name="uzytkownikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbBankEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="kontoes" EntityType="Self.konto" />
+    <EntitySet Name="logs" EntityType="Self.log" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="transakcjas" EntityType="Self.transakcja" />
+    <EntitySet Name="uzytkowniks" EntityType="Self.uzytkownik" />
+    <AssociationSet Name="FK_konto_uzytkownik" Association="Self.FK_konto_uzytkownik">
+      <End Role="uzytkownik" EntitySet="uzytkowniks" />
+      <End Role="konto" EntitySet="kontoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_log_uzytkownik" Association="Self.FK_log_uzytkownik">
+      <End Role="uzytkownik" EntitySet="uzytkowniks" />
+      <End Role="log" EntitySet="logs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transakcja_uzytkownik" Association="Self.FK_transakcja_uzytkownik">
+      <End Role="uzytkownik" EntitySet="uzytkowniks" />
+      <End Role="transakcja" EntitySet="transakcjas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

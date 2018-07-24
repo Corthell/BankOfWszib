@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbBankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="konto">
+    <Key>
+      <PropertyRef Name="kontoId" />
+    </Key>
+    <Property Name="kontoId" Type="int" Nullable="false" />
+    <Property Name="uzytkownikId" Type="int" Nullable="false" />
+    <Property Name="saldo" Type="int" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="logId" />
+    </Key>
+    <Property Name="logId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="uzytkownikId" Type="int" Nullable="false" />
+    <Property Name="dataLogowania" Type="date" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="transakcja">
+    <Key>
+      <PropertyRef Name="transakcjaId" />
+    </Key>
+    <Property Name="transakcjaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="uzytkownikId" Type="int" Nullable="false" />
+    <Property Name="nrOdbiorcy" Type="nchar" MaxLength="50" Nullable="false" />
+    <Property Name="dataPrzelewu" Type="date" Nullable="false" />
+    <Property Name="miasto" Type="nvarchar" MaxLength="50" />
+    <Property Name="ulica" Type="nvarchar" MaxLength="50" />
+    <Property Name="nrLokalu" Type="nvarchar" MaxLength="50" />
+    <Property Name="kwotaPrzelewu" Type="int" />
+    <Property Name="tytulPrzelewu" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="uzytkownik">
+    <Key>
+      <PropertyRef Name="uzytkownikId" />
+    </Key>
+    <Property Name="uzytkownikId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="haslo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="imie" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="nazwisko" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="miasto" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ulica" Type="nvarchar" MaxLength="50" />
+    <Property Name="nrLokalu" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="telefon" Type="nvarchar" MaxLength="50" />
+    <Property Name="pesel" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+    <Property Name="nrRachunku" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="status" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_konto_uzytkownik">
+    <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+    <End Role="konto" Type="Self.konto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uzytkownik">
+        <PropertyRef Name="uzytkownikId" />
+      </Principal>
+      <Dependent Role="konto">
+        <PropertyRef Name="uzytkownikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_log_uzytkownik">
+    <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+    <End Role="log" Type="Self.log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uzytkownik">
+        <PropertyRef Name="uzytkownikId" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="uzytkownikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_transakcja_uzytkownik">
+    <End Role="uzytkownik" Type="Self.uzytkownik" Multiplicity="1" />
+    <End Role="transakcja" Type="Self.transakcja" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uzytkownik">
+        <PropertyRef Name="uzytkownikId" />
+      </Principal>
+      <Dependent Role="transakcja">
+        <PropertyRef Name="uzytkownikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbBankModelStoreContainer">
+    <EntitySet Name="konto" EntityType="Self.konto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transakcja" EntityType="Self.transakcja" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="uzytkownik" EntityType="Self.uzytkownik" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_konto_uzytkownik" Association="Self.FK_konto_uzytkownik">
+      <End Role="uzytkownik" EntitySet="uzytkownik" />
+      <End Role="konto" EntitySet="konto" />
+    </AssociationSet>
+    <AssociationSet Name="FK_log_uzytkownik" Association="Self.FK_log_uzytkownik">
+      <End Role="uzytkownik" EntitySet="uzytkownik" />
+      <End Role="log" EntitySet="log" />
+    </AssociationSet>
+    <AssociationSet Name="FK_transakcja_uzytkownik" Association="Self.FK_transakcja_uzytkownik">
+      <End Role="uzytkownik" EntitySet="uzytkownik" />
+      <End Role="transakcja" EntitySet="transakcja" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

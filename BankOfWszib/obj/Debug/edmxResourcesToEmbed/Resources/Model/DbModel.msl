@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DbBankModelStoreContainer" CdmEntityContainer="DbBankEntities2">
+    <EntitySetMapping Name="kontoes">
+      <EntityTypeMapping TypeName="DbBankModel.konto">
+        <MappingFragment StoreEntitySet="konto">
+          <ScalarProperty Name="kontoId" ColumnName="kontoId" />
+          <ScalarProperty Name="uzytkownikId" ColumnName="uzytkownikId" />
+          <ScalarProperty Name="saldo" ColumnName="saldo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="logs">
+      <EntityTypeMapping TypeName="DbBankModel.log">
+        <MappingFragment StoreEntitySet="log">
+          <ScalarProperty Name="logId" ColumnName="logId" />
+          <ScalarProperty Name="uzytkownikId" ColumnName="uzytkownikId" />
+          <ScalarProperty Name="dataLogowania" ColumnName="dataLogowania" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="DbBankModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="transakcjas">
+      <EntityTypeMapping TypeName="DbBankModel.transakcja">
+        <MappingFragment StoreEntitySet="transakcja">
+          <ScalarProperty Name="transakcjaId" ColumnName="transakcjaId" />
+          <ScalarProperty Name="uzytkownikId" ColumnName="uzytkownikId" />
+          <ScalarProperty Name="nrOdbiorcy" ColumnName="nrOdbiorcy" />
+          <ScalarProperty Name="dataPrzelewu" ColumnName="dataPrzelewu" />
+          <ScalarProperty Name="miasto" ColumnName="miasto" />
+          <ScalarProperty Name="ulica" ColumnName="ulica" />
+          <ScalarProperty Name="nrLokalu" ColumnName="nrLokalu" />
+          <ScalarProperty Name="kwotaPrzelewu" ColumnName="kwotaPrzelewu" />
+          <ScalarProperty Name="tytulPrzelewu" ColumnName="tytulPrzelewu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="uzytkowniks">
+      <EntityTypeMapping TypeName="DbBankModel.uzytkownik">
+        <MappingFragment StoreEntitySet="uzytkownik">
+          <ScalarProperty Name="uzytkownikId" ColumnName="uzytkownikId" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="haslo" ColumnName="haslo" />
+          <ScalarProperty Name="imie" ColumnName="imie" />
+          <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
+          <ScalarProperty Name="miasto" ColumnName="miasto" />
+          <ScalarProperty Name="ulica" ColumnName="ulica" />
+          <ScalarProperty Name="nrLokalu" ColumnName="nrLokalu" />
+          <ScalarProperty Name="telefon" ColumnName="telefon" />
+          <ScalarProperty Name="pesel" ColumnName="pesel" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="nrRachunku" ColumnName="nrRachunku" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
